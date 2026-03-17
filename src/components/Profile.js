@@ -15,7 +15,7 @@ export default function Profile() {
       setLoading(true);
       setError('');
       try {
-        const response = await fetch('http://localhost:3030/user/profile', {
+        const response = await fetch('https://knowledge-hub-backend-8ela.onrender.com/user/profile', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

@@ -14,7 +14,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3030/auth/register', {
+      const response = await fetch('https://knowledge-hub-backend-8ela.onrender.com/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

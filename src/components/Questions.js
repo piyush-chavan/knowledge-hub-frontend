@@ -12,7 +12,7 @@ export default function Questions() {
       setLoading(true);
       setError('');
       try {
-        const response = await fetch('http://localhost:3030/question/all', {
+        const response = await fetch('https://knowledge-hub-backend-8ela.onrender.com/question/all', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

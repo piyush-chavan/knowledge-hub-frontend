@@ -27,7 +27,7 @@ export default function PostQuestion() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3030/question/post', {
+      const response = await fetch('https://knowledge-hub-backend-8ela.onrender.com/question/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

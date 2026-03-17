@@ -20,7 +20,7 @@ export default function QuestionDetail() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch(`http://localhost:3030/question/${id}`, {
+      const response = await fetch(`https://knowledge-hub-backend-8ela.onrender.com/question/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export default function QuestionDetail() {
 
     setPosting(true);
     try {
-      const response = await fetch(`http://localhost:3030/answer/post/${id}`, {
+      const response = await fetch(`https://knowledge-hub-backend-8ela.onrender.com/answer/post/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

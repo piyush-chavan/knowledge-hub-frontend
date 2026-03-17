@@ -12,7 +12,7 @@ export default function UserProfile() {
       setLoading(true);
       setError('');
       try {
-        const response = await fetch(`http://localhost:3030/user/profile/${username}`, {
+        const response = await fetch(`https://knowledge-hub-backend-8ela.onrender.com/user/profile/${username}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
