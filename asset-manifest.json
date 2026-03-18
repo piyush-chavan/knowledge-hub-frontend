@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/knowledge-hub-frontend/static/css/main.e116e01a.css",
-    "main.js": "/knowledge-hub-frontend/static/js/main.f5cf7fe6.js",
+    "main.css": "/knowledge-hub-frontend/static/css/main.edef3ddf.css",
+    "main.js": "/knowledge-hub-frontend/static/js/main.f03af1c2.js",
     "static/js/453.27debbd0.chunk.js": "/knowledge-hub-frontend/static/js/453.27debbd0.chunk.js",
     "index.html": "/knowledge-hub-frontend/index.html",
-    "main.e116e01a.css.map": "/knowledge-hub-frontend/static/css/main.e116e01a.css.map",
-    "main.f5cf7fe6.js.map": "/knowledge-hub-frontend/static/js/main.f5cf7fe6.js.map",
+    "main.edef3ddf.css.map": "/knowledge-hub-frontend/static/css/main.edef3ddf.css.map",
+    "main.f03af1c2.js.map": "/knowledge-hub-frontend/static/js/main.f03af1c2.js.map",
     "453.27debbd0.chunk.js.map": "/knowledge-hub-frontend/static/js/453.27debbd0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e116e01a.css",
-    "static/js/main.f5cf7fe6.js"
+    "static/css/main.edef3ddf.css",
+    "static/js/main.f03af1c2.js"
   ]
 }
