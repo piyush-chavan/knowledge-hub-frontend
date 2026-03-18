@@ -34,15 +34,15 @@ export default function Home() {
           </p>
           <div className="hero-buttons">
             <button onClick={() => navigate('/questions')} className="btn-primary">
-              Browse Questions
+              <i class="fa-brands fa-safari"></i> Browse Questions
             </button>
             {token ? (
               <button onClick={() => navigate('/post-question')} className="btn-secondary">
-                Ask a Question
+                <i class="fa-solid fa-question"></i> Ask a Question
               </button>
             ) : (
               <button onClick={() => navigate('/register')} className="btn-secondary">
-                Join Now
+                <i class="fa-solid fa-user-plus"></i> Join Now
               </button>
             )}
           </div>
@@ -57,7 +57,7 @@ export default function Home() {
 
       {/* Features Section */}
       <section className="features-section">
-        <h2>Why Choose Mini Quora?</h2>
+        <h2 style={{color:"wheat"}}>Why Choose Mini Quora?</h2>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">❓</div>
@@ -84,7 +84,7 @@ export default function Home() {
 
       {/* How It Works */}
       <section className="how-it-works">
-        <h2>How It Works</h2>
+        <h2 style={{color:"wheat"}}>How It Works</h2>
         <div className="steps">
           <div className="step">
             <div className="step-number">1</div>
@@ -112,7 +112,7 @@ export default function Home() {
       {/* User Actions */}
       {token && (
         <section className="user-actions">
-          <h2>Quick Actions</h2>
+          <h2 style={{color:"wheat"}}>Quick Actions</h2>
           <div className="actions-grid">
             <div className="action-card">
               <h3>Find a User</h3>
@@ -124,7 +124,7 @@ export default function Home() {
                   placeholder="Enter username"
                   required
                 />
-                <button type="submit">Search</button>
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
               </form>
             </div>
             <div className="action-card">
@@ -133,7 +133,7 @@ export default function Home() {
                 <code>{token}</code>
               </p>
               <button onClick={clearToken} className="btn-danger">
-                Logout
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
               </button>
             </div>
           </div>
@@ -142,7 +142,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="footer">
-        <p>&copy; 2026 Mini Quora. Built with React and passion for knowledge sharing.</p>
+        <p>&copy; 2026 Knowledge Hub. Built with Passion and curiosity for knowledge sharing.</p>
       </footer>
     </div>
   );

@@ -1,5 +1,6 @@
 import './App.css';
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -15,6 +16,7 @@ function App() {
   return (
     <HashRouter>
       <Navbar />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />

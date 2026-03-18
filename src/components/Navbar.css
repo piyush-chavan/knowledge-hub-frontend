@@ -1,5 +1,6 @@
 .app-navbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
@@ -22,6 +23,7 @@
 .app-nav-links {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .app-nav-links a {

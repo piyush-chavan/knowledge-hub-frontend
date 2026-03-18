@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function PostQuestion() {
   const [title, setTitle] = useState('');
@@ -46,8 +47,10 @@ export default function PostQuestion() {
       const data = await response.json();
       // Assuming success, navigate to questions
       navigate('/questions');
+      toast.success('Question posted successfully!');
     } catch (err) {
       setError(err.message);
+      toast.error('Failed to post question. Please try again.');
     } finally {
       setLoading(false);
     }

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { HashLoader } from 'react-spinners';
 
 export default function Questions() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const token = localStorage.getItem('token');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -37,15 +40,24 @@ export default function Questions() {
 
   return (
     <div className="questions-container">
+      <div onClick={()=>navigate('/post-question')} style={{position:'fixed', right:'15%',bottom:'10%',zIndex:1000,cursor:'pointer',backgroundColor:'#3951d7',color:'white',fontSize:'1.25rem',boxShadow:'0 0 10px #50C878',fontWeight:'600',borderRadius:'50%',padding:'10px',width:'50px',height:'50px',display:'flex',alignItems:'center',justifyContent:'center'}} ><i class="fa-regular fa-pen-to-square"></i></div>
       <div className="questions-header">
-        <h2>All Questions</h2>
-        {token && (
+        <h2 style={{color:'whitesmoke'}}>All Questions</h2>
+        
           <Link to="/post-question" className="post-question-btn">
-            Post a Question
+          {token ?
+            <><i class="fa-regular fa-pen-to-square"></i> Post a Question </>
+            :
+            <><i class="fa-solid fa-lock"></i> Login to Post Question </>
+          }
           </Link>
-        )}
+        
       </div>
-      {loading && <p className="loading">Loading questions...</p>}
+      {loading && (
+        <div className="loading">
+          <HashLoader color="white" />
+        </div>
+      )}
       {error && <p className="error">Error: {error}</p>}
       {questions.length > 0 ? (
         <div className="questions-grid">

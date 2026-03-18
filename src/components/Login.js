@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -28,11 +29,14 @@ export default function Login() {
       if (data.token) {
         localStorage.setItem('token', data.token);
         navigate('/');
+        toast.success('Login successful!');
       } else {
+        toast.error('Login failed. Please check your credentials.');
         throw new Error('No token returned by API');
       }
     } catch (err) {
       setError(err.message);
+      toast.error('Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -63,7 +67,7 @@ export default function Login() {
               required
             />
           </div>
-
+          <br />
           <button type="submit" disabled={loading}>
             {loading ? 'Logging in…' : 'Login'}
           </button>
@@ -71,9 +75,7 @@ export default function Login() {
           {error && <p className="error">Error: {error}</p>}
         </form>
 
-        <p>
-          Tip: Use valid credentials from your backend.
-        </p>
+        
       </div>
     </div>
   );

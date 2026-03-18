@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -32,11 +33,14 @@ export default function Register() {
       if (data.token) {
         localStorage.setItem('token', data.token);
         navigate('/');
+        toast.success('Registration successful!');
       } else {
+        toast.error('Registration failed. Please try again.');
         throw new Error('No token returned by API');
       }
     } catch (err) {
       setError(err.message);
+      toast.error('Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -67,7 +71,7 @@ export default function Register() {
               required
             />
           </div>
-
+          <br />
           <button type="submit" disabled={loading}>
             {loading ? 'Registering…' : 'Register'}
           </button>
@@ -75,9 +79,7 @@ export default function Register() {
           {error && <p className="error">Error: {error}</p>}
         </form>
 
-        <p>
-          Tip: Use valid credentials for registration.
-        </p>
+        
       </div>
     </div>
   );

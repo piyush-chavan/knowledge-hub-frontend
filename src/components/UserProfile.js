@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { HashLoader } from 'react-spinners';
 
 export default function UserProfile() {
   const { username } = useParams();
@@ -39,7 +40,13 @@ export default function UserProfile() {
     <div className="page-container">
       <div className="card">
         <h2>Profile of {username}</h2>
-        {loading && <p>Loading...</p>}
+        {loading && 
+        <div className="loading">
+          <HashLoader color="white" />
+        </div>}
+        {/* {loading && <p className="loading">Loading profile...</p>} */}
+
+        
         {error && <p className="error">Error: {error}</p>}
         {profile && (
           <div className="profile-data">

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { HashLoader } from 'react-spinners';
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -54,7 +55,12 @@ export default function Profile() {
     <div className="page-container">
       <div className="card">
         <h2>Your Profile</h2>
-        {loading && <p>Loading...</p>}
+        {loading && 
+        <div className="loading">
+          <HashLoader color="#007bff" />
+        </div>}
+        {/* {loading && <p className="loading">Loading...</p>} */}
+        
         {error && <p className="error">Error: {error}</p>}
         {profile && (
           <div className="profile-data">

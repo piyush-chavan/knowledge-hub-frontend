@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { HashLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
 
 export default function QuestionDetail() {
   const { id } = useParams();
@@ -11,6 +13,8 @@ export default function QuestionDetail() {
   const [answerBody, setAnswerBody] = useState('');
   const [posting, setPosting] = useState(false);
   const token = localStorage.getItem('token');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchQuestion();
@@ -63,10 +67,12 @@ export default function QuestionDetail() {
       const newAnswer = await response.json();
       // Refetch to get updated answers with user data
       await fetchQuestion();
+      toast.success('Answer posted successfully!');
       setAnswerBody('');
       setShowAnswerForm(false);
     } catch (err) {
       setError(err.message);
+      toast.error('Failed to post answer. Please try again.');
     } finally {
       setPosting(false);
     }
@@ -74,10 +80,14 @@ export default function QuestionDetail() {
 
   return (
     <div className="question-detail-container">
-      <Link to="/questions" className="post-question-btn">
+      <button onClick={() => navigate('/questions')}>
         ← Back to Questions
-      </Link>
-      {loading && <p className="loading">Loading question...</p>}
+      </button>
+      {loading && 
+      <div className="loading">
+      <HashLoader color="white" />
+      </div>}
+      {/* <p className="loading">Loading question...</p>} */}
       {error && <p className="error">Error: {error}</p>}
       {question && (
         <div className="question-detail">
@@ -100,39 +110,13 @@ export default function QuestionDetail() {
           </div>
 
           <div className="answers-section">
-            <h2>Answers ({answers.length})</h2>
-            {answers.length > 0 ? (
-              answers.map((answer) => (
-                <div key={answer._id} className="answer-item">
-                  <div className="answer-content">
-                    <p>{answer.body}</p>
-                  </div>
-                  <div className="answer-meta">
-                    <div className="answer-user">
-                      <span className="user-avatar">{answer.user && answer.user.username ? answer.user.username.charAt(0).toUpperCase() : '?'}</span>
-                      <span>{answer.user && answer.user.username ? answer.user.username : 'Unknown'}</span>
-                    </div>
-                    <div className="answer-date">
-                      {new Date(answer.postedAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="no-answers">No answers yet. Be the first to answer!</p>
-            )}
-
             {token ? (
               <div className="post-answer-section">
                 <button
                   onClick={() => setShowAnswerForm(!showAnswerForm)}
                   className="toggle-answer-btn"
                 >
-                  {showAnswerForm ? 'Cancel' : 'Post an Answer'}
+                  {showAnswerForm ? 'Cancel' : <><i class="fa-regular fa-pen-to-square"></i> Post an Answer</>}
                 </button>
                 {showAnswerForm && (
                   <form onSubmit={submitAnswer} className="answer-form">
@@ -153,6 +137,33 @@ export default function QuestionDetail() {
             ) : (
               <p className="login-prompt">Please log in to post an answer.</p>
             )}
+            <h2>Answers ({answers.length})</h2>
+            {answers.length > 0 ? (
+              answers.map((answer) => (
+                <div key={answer._id} className="answer-item">
+                  <div className="answer-content">
+                    <p>{answer.body}</p>
+                  </div>
+                  <div className="answer-meta">
+                    <div className="question-user">
+                      <span className="user-avatar">{answer.user && answer.user.username ? answer.user.username.charAt(0).toUpperCase() : '?'}</span>
+                      <span>{answer.user && answer.user.username ? answer.user.username : 'Unknown'}</span>
+                    </div>
+                    <div className="question-date">
+                      posted on {new Date(answer.postedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="no-answers">No answers yet. Be the first to answer!</p>
+            )}
+
+            
           </div>
         </div>
       )}
