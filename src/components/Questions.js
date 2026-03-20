@@ -15,7 +15,8 @@ export default function Questions() {
       setLoading(true);
       setError('');
       try {
-        const response = await fetch('https://knowledge-hub-backend-8ela.onrender.com/question/all', {
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+        const response = await fetch(`${backendUrl}/question/all`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -40,18 +41,18 @@ export default function Questions() {
 
   return (
     <div className="questions-container">
-      <div onClick={()=>navigate('/post-question')} style={{position:'fixed', right:'15%',bottom:'10%',zIndex:1000,cursor:'pointer',backgroundColor:'#3951d7',color:'white',fontSize:'1.25rem',boxShadow:'0 0 10px #50C878',fontWeight:'600',borderRadius:'50%',padding:'10px',width:'50px',height:'50px',display:'flex',alignItems:'center',justifyContent:'center'}} ><i class="fa-regular fa-pen-to-square"></i></div>
+      <div onClick={() => navigate('/post-question')} style={{ position: 'fixed', right: '15%', bottom: '10%', zIndex: 1000, cursor: 'pointer', backgroundColor: '#3951d7', color: 'white', fontSize: '1.25rem', boxShadow: '0 0 10px #50C878', fontWeight: '600', borderRadius: '50%', padding: '10px', width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} ><i class="fa-regular fa-pen-to-square"></i></div>
       <div className="questions-header">
-        <h2 style={{color:'whitesmoke'}}>All Questions</h2>
-        
-          <Link to="/post-question" className="post-question-btn">
+        <h2 style={{ color: 'whitesmoke' }}>All Questions</h2>
+
+        <Link to="/post-question" className="post-question-btn">
           {token ?
             <><i class="fa-regular fa-pen-to-square"></i> Post a Question </>
             :
             <><i class="fa-solid fa-lock"></i> Login to Post Question </>
           }
-          </Link>
-        
+        </Link>
+
       </div>
       {loading && (
         <div className="loading">
@@ -62,27 +63,28 @@ export default function Questions() {
       {questions.length > 0 ? (
         <div className="questions-grid">
           {questions.map((question) => (
-            <Link key={question._id} to={`/question/${question._id}`} className="question-link">
-              <div className="question-item">
+            <div className="question-item">
+              <Link key={question._id} to={`/question/${question._id}`} className="question-link">
                 <div className="question-content">
                   <h3 className="question-title">{question.title}</h3>
                   <p className="question-body">{question.body}</p>
                 </div>
-                <div className="question-footer">
-                  <div className="question-user">
-                    <span className="user-avatar">{question.user ? question.user.username.charAt(0).toUpperCase() : '?'}</span>
-                    <span>{question.user ? question.user.username : 'Unknown'}</span>
-                  </div>
-                  <div className="question-date">
-                    {new Date(question.postedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </div>
+              </Link>
+              <div className="question-footer">
+                <div onClick={() => navigate(`/user/profile/${question.user?.username}`)}
+                  className="question-user">
+                  <span className="user-avatar">{question.user ? question.user.username.charAt(0).toUpperCase() : '?'}</span>
+                  <span>{question.user ? question.user.username : 'Unknown'}</span>
+                </div>
+                <div className="question-date">
+                  {new Date(question.postedAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       ) : (

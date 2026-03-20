@@ -24,7 +24,8 @@ export default function QuestionDetail() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch(`https://knowledge-hub-backend-8ela.onrender.com/question/${id}`, {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/question/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +52,8 @@ export default function QuestionDetail() {
 
     setPosting(true);
     try {
-      const response = await fetch(`https://knowledge-hub-backend-8ela.onrender.com/answer/post/${id}`, {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/answer/post/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,10 +85,10 @@ export default function QuestionDetail() {
       <button onClick={() => navigate('/questions')}>
         ← Back to Questions
       </button>
-      {loading && 
-      <div className="loading">
-      <HashLoader color="white" />
-      </div>}
+      {loading &&
+        <div className="loading">
+          <HashLoader color="white" />
+        </div>}
       {/* <p className="loading">Loading question...</p>} */}
       {error && <p className="error">Error: {error}</p>}
       {question && (
@@ -95,7 +97,8 @@ export default function QuestionDetail() {
             <h1 className="question-title">{question.title}</h1>
             <p className="question-body">{question.body}</p>
             <div className="question-meta">
-              <div className="question-user">
+              <div onClick={() => navigate(`/user/profile/${question.user?.username}`)}
+                className="question-user">
                 <span className="user-avatar">{question.user && question.user.username ? question.user.username.charAt(0).toUpperCase() : '?'}</span>
                 <span>{question.user && question.user.username ? question.user.username : 'Unknown'}</span>
               </div>
@@ -145,7 +148,8 @@ export default function QuestionDetail() {
                     <p>{answer.body}</p>
                   </div>
                   <div className="answer-meta">
-                    <div className="question-user">
+                    <div onClick={() => navigate(`/user/profile/${answer.user?.username}`)}
+                      className="question-user">
                       <span className="user-avatar">{answer.user && answer.user.username ? answer.user.username.charAt(0).toUpperCase() : '?'}</span>
                       <span>{answer.user && answer.user.username ? answer.user.username : 'Unknown'}</span>
                     </div>
@@ -163,7 +167,7 @@ export default function QuestionDetail() {
               <p className="no-answers">No answers yet. Be the first to answer!</p>
             )}
 
-            
+
           </div>
         </div>
       )}

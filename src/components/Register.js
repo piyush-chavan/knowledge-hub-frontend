@@ -15,7 +15,8 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const response = await fetch('https://knowledge-hub-backend-8ela.onrender.com/auth/register', {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -48,30 +49,34 @@ export default function Register() {
 
   return (
     <div className="page-container">
-      <div className="card">
+      <div className="card" style={{maxWidth:'500px'}}>
         <h2>Register</h2>
         <form onSubmit={submit}>
-          <div>
-            <label htmlFor="register-username">Username:</label>
+          <div className="floating-group" >
             <input
               id="register-username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              placeholder=" "
+              className="floating-input"
             />
+            <label htmlFor="register-username" className="floating-label">Username</label>
           </div>
 
-          <div>
-            <label htmlFor="register-password">Password:</label>
+          <div className="floating-group">
             <input
               id="register-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              placeholder=""
+              className="floating-input"
             />
+            <label  className="floating-label">Password</label>
           </div>
-          <br />
+          <br /> 
           <button type="submit" disabled={loading}>
             {loading ? 'Registering…' : 'Register'}
           </button>

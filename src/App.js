@@ -11,6 +11,7 @@ import UserProfile from './components/UserProfile';
 import Questions from './components/Questions';
 import PostQuestion from './components/PostQuestion';
 import QuestionDetail from './components/QuestionDetail';
+import UsersList from './components/UsersList';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/questions" element={<Questions />} />
           <Route path="/post-question" element={<PostQuestion />} />
           <Route path="/question/:id" element={<QuestionDetail />} />
+          <Route path="/users" element={<UsersList/>} />
         </Routes>
       </main>
     </HashRouter>

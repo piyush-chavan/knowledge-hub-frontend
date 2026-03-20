@@ -14,6 +14,7 @@ export default function Home() {
   const clearToken = () => {
     localStorage.removeItem('token');
     setToken(null);
+    window.location.reload();
   };
 
   const searchUser = (e) => {

@@ -15,7 +15,8 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch('https://knowledge-hub-backend-8ela.onrender.com/auth/login', {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -44,28 +45,32 @@ export default function Login() {
 
   return (
     <div className="page-container">
-      <div className="card">
+      <div className="card" style={{maxWidth:'500px'}}>
         <h2>Login</h2>
         <form onSubmit={submit}>
-          <div>
-            <label htmlFor="login-username">Username:</label>
+          <div className="floating-group">
             <input
               id="login-username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              placeholder=""
+              className="floating-input"
             />
+            <label htmlFor="login-username" className="floating-label">Username</label>
           </div>
 
-          <div>
-            <label htmlFor="login-password">Password:</label>
+          <div className="floating-group">
             <input
               id="login-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              placeholder=""
+              className="floating-input"
             />
+            <label htmlFor="login-password" className="floating-label">Password</label>
           </div>
           <br />
           <button type="submit" disabled={loading}>
