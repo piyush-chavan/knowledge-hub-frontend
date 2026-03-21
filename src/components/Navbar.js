@@ -7,7 +7,10 @@ export default function Navbar() {
 
   return (
     <nav className="app-navbar">
-      <div className="app-nav-brand">Knowledge Hub</div>
+      <div className="app-nav-brand">
+        <img src={require('../logos/kHubBulb.png')} style={{height:'40px',margin:'0 5px'}} />
+      <div>Knowledge Hub</div>
+      </div>
       <div className="app-nav-links">
         <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
           Home

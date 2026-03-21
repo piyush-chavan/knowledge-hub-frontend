@@ -29,7 +29,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
-          <h1 className="hero-title">Welcome to Mini Quora</h1>
+          <h1 className="hero-title">Welcome to Knowledge Hub</h1>
           <p className="hero-subtitle">
             A modern Q&A platform where knowledge meets curiosity. Ask questions, share answers, and connect with a community of learners.
           </p>
@@ -50,15 +50,16 @@ export default function Home() {
         </div>
         <div className="hero-image">
           <div className="hero-placeholder">
-            <span>💡</span>
-            <p>Knowledge Hub</p>
+            {/* <span>💡</span>
+            <p>Knowledge Hub</p> */}
+            <img style={{maxWidth:'100%'}} src={require('../logos/kHubLogo.png')} />
           </div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="features-section">
-        <h2 style={{color:"wheat"}}>Why Choose Mini Quora?</h2>
+        <h2 style={{color:"wheat"}}>Why Choose Knowledge Hub?</h2>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">❓</div>

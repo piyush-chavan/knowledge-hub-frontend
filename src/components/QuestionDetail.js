@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { HashLoader } from 'react-spinners';
+import { FadeLoader, HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
+import { Tooltip } from 'react-tooltip';
 
 export default function QuestionDetail() {
   const { id } = useParams();
@@ -12,6 +13,8 @@ export default function QuestionDetail() {
   const [showAnswerForm, setShowAnswerForm] = useState(false);
   const [answerBody, setAnswerBody] = useState('');
   const [posting, setPosting] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkLoading, setBookmarkLoading] = useState(true);
   const token = localStorage.getItem('token');
 
   const navigate = useNavigate();
@@ -45,6 +48,62 @@ export default function QuestionDetail() {
       setLoading(false);
     }
   };
+
+  const checkBookmark = async () => {
+
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/question/${id}/checkBookmark`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setIsBookmarked(data.isBookmarked);
+      setBookmarkLoading(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBookmarkLoading(false);
+    }
+  };
+  const toggleBookmark = async () => {
+
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/question/${id}/toggleBookmark`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setIsBookmarked(data.isBookmarked);
+      setBookmarkLoading(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBookmarkLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (token) { checkBookmark(); }
+  }, [])
 
   const submitAnswer = async (event) => {
     event.preventDefault();
@@ -97,10 +156,22 @@ export default function QuestionDetail() {
             <h1 className="question-title">{question.title}</h1>
             <p className="question-body">{question.body}</p>
             <div className="question-meta">
-              <div onClick={() => navigate(`/user/profile/${question.user?.username}`)}
-                className="question-user">
-                <span className="user-avatar">{question.user && question.user.username ? question.user.username.charAt(0).toUpperCase() : '?'}</span>
-                <span>{question.user && question.user.username ? question.user.username : 'Unknown'}</span>
+              <div className="question-user">
+                <div data-tooltip-id='user-profile' data-tooltip-content='See Profile' style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/user/profile/${question.user?.username}`)}>
+                  <span className="user-avatar">{question.user && question.user.username ? question.user.username.charAt(0).toUpperCase() : '?'}</span>
+                  <span>{question.user && question.user.username ? question.user.username : 'Unknown'}</span>
+                </div>
+                <Tooltip className='custom-tooltip' id='user-profile' />
+                {token && (<div className='options-icons-container'>
+                  {bookmarkLoading && (<div style={{ transform: "scale(0.5)" }}><FadeLoader /></div>)}
+                  {isBookmarked ? 
+                  <>
+                  <i data-tooltip-id='remove-bookmark' data-tooltip-content='remove bookmark' onClick={() => toggleBookmark()} class="fa-solid fa-bookmark bookmark-icon"></i>
+                  <Tooltip className='custom-tooltip' id='remove-bookmark' />
+                  </>
+                     : <i data-tooltip-id='save-bookmark' data-tooltip-content='save bookmark' onClick={() => toggleBookmark()} class="fa-regular fa-bookmark bookmark-icon"></i>}
+                     <Tooltip className='custom-tooltip' id='save-bookmark' />
+                </div>)}
               </div>
               <div className="question-date">
                 Asked on {new Date(question.postedAt).toLocaleDateString('en-US', {
@@ -148,7 +219,7 @@ export default function QuestionDetail() {
                     <p>{answer.body}</p>
                   </div>
                   <div className="answer-meta">
-                    <div onClick={() => navigate(`/user/profile/${answer.user?.username}`)}
+                    <div data-tooltip-id='user-profile' data-tooltip-content='See Profile' style={{cursor:'pointer'}} onClick={() => navigate(`/user/profile/${answer.user?.username}`)}
                       className="question-user">
                       <span className="user-avatar">{answer.user && answer.user.username ? answer.user.username.charAt(0).toUpperCase() : '?'}</span>
                       <span>{answer.user && answer.user.username ? answer.user.username : 'Unknown'}</span>

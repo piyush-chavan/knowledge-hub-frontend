@@ -2,11 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
+import { Tooltip } from 'react-tooltip';
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [profileTab, setProfileTab] = useState('bookmarks');
   const token = localStorage.getItem('token');
   const fetchedRef = useRef(false);
 
@@ -109,8 +111,8 @@ export default function Profile() {
 
   return (
     <div className="page-container">
-      <div className="card">
-        <h2>Your Profile</h2>
+      <div className="card" style={{paddingTop:'10px'}}>
+        <h2 style={{margin:'5px auto'}}>Your Profile</h2>
         {loading &&
           <div className="loading">
             <HashLoader color="#007bff" />
@@ -127,7 +129,8 @@ export default function Profile() {
               <div className="profile-edit-container">
                 <div className="edit-form">
                   <h3>Edit Profile</h3>
-                  <i style={{ cursor: 'pointer', position: 'absolute', top: '10px', right: '10px' }} onClick={() => setShowEdit(false)} class="fa-solid fa-circle-xmark"></i>
+                  <i data-tooltip-id='close-edit-box' data-tooltip-content='Close' style={{ cursor: 'pointer', position: 'absolute', top: '10px', right: '10px' }} onClick={() => setShowEdit(false)} class="fa-solid fa-circle-xmark"></i>
+                  <Tooltip className='custom-tooltip' id='close-edit-box' />
 
                   <div className="floating-group">
                     <input
@@ -194,7 +197,10 @@ export default function Profile() {
 
               <div className="profile-card">
                 <span className="edit-btn" onClick={() => setShowEdit(!showEdit)}>
-                  {showEdit ? <></> : <><i class="fa-solid fa-pen-to-square"></i></>}
+                  {showEdit ? <></> : <>
+                  <i data-tooltip-id='edit-profile' data-tooltip-content='Edit profile' class="fa-solid fa-pen-to-square"></i>
+                  <Tooltip className='custom-tooltip' id='edit-profile' />
+                  </>}
                 </span>
                 <span className="profile-avatar">{profile.userDetails.name.charAt(0).toUpperCase()}</span>
                 <h2 className="profile-name">{profile.userDetails.name}</h2>
@@ -228,56 +234,107 @@ export default function Profile() {
               </div>
             </div>
 
+            <div style={{flex:3,minWidth: 'min(600px,100%)'}}>
+              {/* tabs navigation */}
+              <div className="profile-tabs">
+                <button
+                  className={`tab-btn ${profileTab === "questions" ? "active" : ""}`}
+                  onClick={() => setProfileTab("questions")}
+                >
+                  Questions
+                </button>
 
+                <button
+                  className={`tab-btn ${profileTab === "answers" ? "active" : ""}`}
+                  onClick={() => setProfileTab("answers")}
+                >
+                  Answers
+                </button>
 
-
-
-            <div className="qa-container">
-
-              {/* Questions */}
-              <div className="qa-section">
-                <h3 className="qa-heading">Questions Asked</h3>
-
-                {profile.questionsAsked.length === 0 && (
-                  <p className="qa-empty">No questions yet</p>
-                )}
-
-                {profile.questionsAsked.map((q) => (
-                  <div className="qa-card" key={q._id}>
-                    <h4 className="qa-title">{q.title}</h4>
-
-                    <button
-                      className="qa-btn"
-                      onClick={() => navigate(`/question/${q._id}`)}
-                    >
-                      View Question →
-                    </button>
-                  </div>
-                ))}
+                <button
+                  className={`tab-btn ${profileTab === "bookmarks" ? "active" : ""}`}
+                  onClick={() => setProfileTab("bookmarks")}
+                >
+                  Bookmarks
+                </button>
               </div>
 
-              {/* Answers */}
-              <div className="qa-section">
-                <h3 className="qa-heading">Answers Given</h3>
+              {profileTab === 'bookmarks' &&
+                (<div className="bookmark-container">
+                  <h3 className="bookmark-heading">Bookmarked Questions  <i class="fa-solid fa-bookmark"></i></h3>
 
-                {profile.answersGiven.map((a) => (
-                  <div className="qa-card" key={a._id}>
-                    <h4 className="qa-title">{a.question.title}</h4>
+                  {profile.userDetails.bookmarks.length === 0 && (
+                    <p className="bookmark-empty">No bookmarks yet</p>
+                  )}
 
-                    <p className="qa-answer">
-                      {a.body.slice(0, 120)}...
-                    </p>
+                  {profile.userDetails.bookmarks.map((q) => (
+                    <div className="bookmark-card" key={q._id}>
+                      <h4 className="bookmark-title">{q.title}</h4>
 
-                    <button
-                      className="qa-btn"
-                      onClick={() => navigate(`/question/${a.question._id}`)}
-                    >
-                      View Question →
-                    </button>
-                  </div>
-                ))}
-              </div>
+                      <p className="bookmark-body">
+                        {q.body?.slice(0, 120)}...
+                      </p>
 
+                      <button
+                        className="bookmark-btn"
+                        onClick={() => navigate(`/question/${q._id}`)}
+                      >
+                        View Question →
+                      </button>
+                    </div>
+                  ))}
+                </div>)}
+
+              {profileTab != 'bookmarks' && (
+                <div className="qa-container">
+
+                  {/* Questions */}
+                  {profileTab === 'questions' &&
+                    (<div className="qa-section">
+                      <h3 className="qa-heading">Questions Asked</h3>
+
+                      {profile.questionsAsked.length === 0 && (
+                        <p className="qa-empty">No questions yet</p>
+                      )}
+
+                      {profile.questionsAsked.map((q) => (
+                        <div className="qa-card" key={q._id}>
+                          <h4 className="qa-title">{q.title}</h4>
+
+                          <button
+                            className="qa-btn"
+                            onClick={() => navigate(`/question/${q._id}`)}
+                          >
+                            View Question →
+                          </button>
+                        </div>
+                      ))}
+                    </div>)}
+
+                  {/* Answers */}
+                  {profileTab === 'answers' &&
+                    (<div className="qa-section">
+                      <h3 className="qa-heading">Answers Given</h3>
+
+                      {profile.answersGiven.map((a) => (
+                        <div className="qa-card" key={a._id}>
+                          <h4 className="qa-title">{a.question.title}</h4>
+
+                          <p className="qa-answer">
+                            {a.body.slice(0, 120)}...
+                          </p>
+
+                          <button
+                            className="qa-btn"
+                            onClick={() => navigate(`/question/${a.question._id}`)}
+                          >
+                            View Question →
+                          </button>
+                        </div>
+                      ))}
+                    </div>)}
+
+                </div>)}
             </div>
           </div>
         )}

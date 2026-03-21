@@ -7,6 +7,7 @@ export default function UserProfile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [profileTab, setProfileTab] = useState('questions');
 
   const navigate = useNavigate();
 
@@ -87,53 +88,69 @@ export default function UserProfile() {
                 </div>
               </div>
             </div>
+            <div style={{ flex: 3, minWidth: 'min(600px,100%)' }}>
+              <div className="profile-tabs">
+                <button
+                  className={`tab-btn ${profileTab === "questions" ? "active" : ""}`}
+                  onClick={() => setProfileTab("questions")}
+                >
+                  Questions
+                </button>
 
-            <div className="qa-container">
-
-              {/* Questions */}
-              <div className="qa-section">
-                <h3 className="qa-heading">Questions Asked</h3>
-
-                {profile.questionsAsked.length === 0 && (
-                  <p className="qa-empty">No questions yet</p>
-                )}
-
-                {profile.questionsAsked.map((q) => (
-                  <div className="qa-card" key={q._id}>
-                    <h4 className="qa-title">{q.title}</h4>
-
-                    <button
-                      className="qa-btn"
-                      onClick={() => navigate(`/question/${q._id}`)}
-                    >
-                      View Question →
-                    </button>
-                  </div>
-                ))}
+                <button
+                  className={`tab-btn ${profileTab === "answers" ? "active" : ""}`}
+                  onClick={() => setProfileTab("answers")}
+                >
+                  Answers
+                </button>
               </div>
 
-              {/* Answers */}
-              <div className="qa-section">
-                <h3 className="qa-heading">Answers Given</h3>
+              <div className="qa-container">
 
-                {profile.answersGiven.map((a) => (
-                  <div className="qa-card" key={a._id}>
-                    <h4 className="qa-title">{a.question?.title}</h4>
+                {/* Questions */}
+                {profileTab === 'questions' && (<div className="qa-section">
+                  <h3 className="qa-heading">Questions Asked</h3>
 
-                    <p className="qa-answer">
-                      {a.body.slice(0, 120)}...
-                    </p>
+                  {profile.questionsAsked.length === 0 && (
+                    <p className="qa-empty">No questions yet</p>
+                  )}
 
-                    <button
-                      className="qa-btn"
-                      onClick={() => navigate(`/question/${a.question?._id}`)}
-                    >
-                      View Question →
-                    </button>
-                  </div>
-                ))}
+                  {profile.questionsAsked.map((q) => (
+                    <div className="qa-card" key={q._id}>
+                      <h4 className="qa-title">{q.title}</h4>
+
+                      <button
+                        className="qa-btn"
+                        onClick={() => navigate(`/question/${q._id}`)}
+                      >
+                        View Question →
+                      </button>
+                    </div>
+                  ))}
+                </div>)}
+
+                {/* Answers */}
+                {profileTab === 'answers' && (<div className="qa-section">
+                  <h3 className="qa-heading">Answers Given</h3>
+
+                  {profile.answersGiven.map((a) => (
+                    <div className="qa-card" key={a._id}>
+                      <h4 className="qa-title">{a.question?.title}</h4>
+
+                      <p className="qa-answer">
+                        {a.body.slice(0, 120)}...
+                      </p>
+
+                      <button
+                        className="qa-btn"
+                        onClick={() => navigate(`/question/${a.question?._id}`)}
+                      >
+                        View Question →
+                      </button>
+                    </div>
+                  ))}
+                </div>)}
               </div>
-
             </div>
           </div>
         )}

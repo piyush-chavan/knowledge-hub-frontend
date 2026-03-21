@@ -39,6 +39,7 @@ const UsersList = () => {
 
     return (
         <div className="users-container">
+            <h2 className="users-heading">Connect with Users</h2>
             {loading &&
                 <div className="loading">
                     <HashLoader color="#007bff" />
@@ -46,7 +47,6 @@ const UsersList = () => {
             {/* {loading && <p className="loading">Loading...</p>} */}
 
             {error && <p className="error">Error: {error}</p>}
-            <h2 className="users-heading">Connect with Users</h2>
 
             <div className="users-grid">
                 {users.map((user) => (
