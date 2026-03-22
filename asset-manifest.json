@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/knowledge-hub-frontend/static/css/main.177d9749.css",
-    "main.js": "/knowledge-hub-frontend/static/js/main.1bf88931.js",
+    "main.css": "/knowledge-hub-frontend/static/css/main.f9dac645.css",
+    "main.js": "/knowledge-hub-frontend/static/js/main.7b4998a3.js",
     "static/js/453.27debbd0.chunk.js": "/knowledge-hub-frontend/static/js/453.27debbd0.chunk.js",
     "static/media/kHubLogo.png": "/knowledge-hub-frontend/static/media/kHubLogo.4319ef78edc6882da261.png",
     "static/media/kHubBulb.png": "/knowledge-hub-frontend/static/media/kHubBulb.e4f3b77d9d7178053688.png",
     "index.html": "/knowledge-hub-frontend/index.html",
-    "main.177d9749.css.map": "/knowledge-hub-frontend/static/css/main.177d9749.css.map",
-    "main.1bf88931.js.map": "/knowledge-hub-frontend/static/js/main.1bf88931.js.map",
+    "main.f9dac645.css.map": "/knowledge-hub-frontend/static/css/main.f9dac645.css.map",
+    "main.7b4998a3.js.map": "/knowledge-hub-frontend/static/js/main.7b4998a3.js.map",
     "453.27debbd0.chunk.js.map": "/knowledge-hub-frontend/static/js/453.27debbd0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.177d9749.css",
-    "static/js/main.1bf88931.js"
+    "static/css/main.f9dac645.css",
+    "static/js/main.7b4998a3.js"
   ]
 }
