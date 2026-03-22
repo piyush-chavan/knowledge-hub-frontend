@@ -75,7 +75,10 @@ export default function Questions() {
               <div className="question-footer">
                 <div data-tooltip-id='user-profile' data-tooltip-content='See profile' style={{cursor:'pointer'}} onClick={() => navigate(`/user/profile/${question.user?.username}`)}
                   className="question-user">
-                  <span className="user-avatar">{question.user ? question.user.username.charAt(0).toUpperCase() : '?'}</span>
+                  <span className="user-avatar">
+                    {question.user&&question.user.profilePic?
+                <img className='profile-pic-circle' src={question.user.profilePic}/> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}
+                    </span>
                   <span>{question.user ? question.user.username : 'Unknown'}</span>
                 </div>
                 <Tooltip className='custom-tooltip' id='user-profile' />

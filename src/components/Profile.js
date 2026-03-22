@@ -3,16 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
+import ProfilePicUpload from './ProfilePicUpload';
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [picUpload,setPicUpload] = useState(false);
   const [profileTab, setProfileTab] = useState('bookmarks');
   const token = localStorage.getItem('token');
   const fetchedRef = useRef(false);
 
   const navigate = useNavigate();
+  useEffect(()=>{
+    if(!picUpload){
+      fetchProfile();
+    }
+  },[picUpload]);
   const fetchProfile = async () => {
     setLoading(true);
     setError('');
@@ -111,6 +118,7 @@ export default function Profile() {
 
   return (
     <div className="page-container">
+      {picUpload&&(<ProfilePicUpload close={setPicUpload} />)}
       <div className="card" style={{paddingTop:'10px'}}>
         <h2 style={{margin:'5px auto'}}>Your Profile</h2>
         {loading &&
@@ -202,7 +210,9 @@ export default function Profile() {
                   <Tooltip className='custom-tooltip' id='edit-profile' />
                   </>}
                 </span>
-                <span className="profile-avatar">{profile.userDetails.name.charAt(0).toUpperCase()}</span>
+                <span data-tooltip-id='profile-pic-tip' data-tooltip-content='Edit/Upload Profile Pic' style={{cursor:'pointer'}} onClick={()=>setPicUpload(true)} className="profile-avatar">{profile.userDetails.profilePic?
+                <img className='profile-pic-circle' src={profile.userDetails.profilePic}/> : profile.userDetails.name.charAt(0).toUpperCase()}</span>
+                <Tooltip className='custom-tooltip' id='profile-pic-tip' />
                 <h2 className="profile-name">{profile.userDetails.name}</h2>
                 <p className="profile-username">@{profile.userDetails.username}</p>
 

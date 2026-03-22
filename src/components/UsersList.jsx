@@ -33,9 +33,9 @@ const UsersList = () => {
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchUsers();
-    },[])
+    }, [])
 
     return (
         <div className="users-container">
@@ -53,8 +53,9 @@ const UsersList = () => {
                     <div className="user-card" key={user._id}>
 
                         {/* Avatar */}
-                        <div style={{margin:'auto'}} className="user-avatar">
-                            {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                        <div style={{ margin: 'auto' }} className="user-avatar">
+                            {user.profilePic ?
+                                <img className='profile-pic-circle' src={user.profilePic} /> : (user.name ? user.name.charAt(0).toUpperCase() : "U")}
                         </div>
 
                         {/* Info */}

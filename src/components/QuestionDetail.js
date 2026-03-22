@@ -158,19 +158,21 @@ export default function QuestionDetail() {
             <div className="question-meta">
               <div className="question-user">
                 <div data-tooltip-id='user-profile' data-tooltip-content='See Profile' style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/user/profile/${question.user?.username}`)}>
-                  <span className="user-avatar">{question.user && question.user.username ? question.user.username.charAt(0).toUpperCase() : '?'}</span>
+                  <span className="user-avatar">
+                    {question.user && question.user.profilePic ?
+                      <img className='profile-pic-circle' src={question.user.profilePic} /> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}                    </span>
                   <span>{question.user && question.user.username ? question.user.username : 'Unknown'}</span>
                 </div>
                 <Tooltip className='custom-tooltip' id='user-profile' />
                 {token && (<div className='options-icons-container'>
                   {bookmarkLoading && (<div style={{ transform: "scale(0.5)" }}><FadeLoader /></div>)}
-                  {isBookmarked ? 
-                  <>
-                  <i data-tooltip-id='remove-bookmark' data-tooltip-content='remove bookmark' onClick={() => toggleBookmark()} class="fa-solid fa-bookmark bookmark-icon"></i>
-                  <Tooltip className='custom-tooltip' id='remove-bookmark' />
-                  </>
-                     : <i data-tooltip-id='save-bookmark' data-tooltip-content='save bookmark' onClick={() => toggleBookmark()} class="fa-regular fa-bookmark bookmark-icon"></i>}
-                     <Tooltip className='custom-tooltip' id='save-bookmark' />
+                  {isBookmarked ?
+                    <>
+                      <i data-tooltip-id='remove-bookmark' data-tooltip-content='remove bookmark' onClick={() => toggleBookmark()} class="fa-solid fa-bookmark bookmark-icon"></i>
+                      <Tooltip className='custom-tooltip' id='remove-bookmark' />
+                    </>
+                    : <i data-tooltip-id='save-bookmark' data-tooltip-content='save bookmark' onClick={() => toggleBookmark()} class="fa-regular fa-bookmark bookmark-icon"></i>}
+                  <Tooltip className='custom-tooltip' id='save-bookmark' />
                 </div>)}
               </div>
               <div className="question-date">
@@ -219,9 +221,12 @@ export default function QuestionDetail() {
                     <p>{answer.body}</p>
                   </div>
                   <div className="answer-meta">
-                    <div data-tooltip-id='user-profile' data-tooltip-content='See Profile' style={{cursor:'pointer'}} onClick={() => navigate(`/user/profile/${answer.user?.username}`)}
+                    <div data-tooltip-id='user-profile' data-tooltip-content='See Profile' style={{ cursor: 'pointer' }} onClick={() => navigate(`/user/profile/${answer.user?.username}`)}
                       className="question-user">
-                      <span className="user-avatar">{answer.user && answer.user.username ? answer.user.username.charAt(0).toUpperCase() : '?'}</span>
+                      <span className="user-avatar">
+                        {answer.user && answer.user.profilePic ?
+                          <img className='profile-pic-circle' src={answer.user.profilePic} /> : (answer.user ? answer.user.username.charAt(0).toUpperCase() : '?')}
+                      </span>
                       <span>{answer.user && answer.user.username ? answer.user.username : 'Unknown'}</span>
                     </div>
                     <div className="question-date">
