@@ -41,8 +41,8 @@ export default function UserProfile() {
   }, [username]);
 
   return (
-    <div className="page-container">
-      <div className="card">
+    <div style={{padding:0}} className="page-container">
+      <div style={{padding:0,paddingTop:'10px'}} className="card">
         <h2>Profile of {username}</h2>
         {loading &&
           <div className="loading">
@@ -89,7 +89,7 @@ export default function UserProfile() {
                 </div>
               </div>
             </div>
-            <div style={{ flex: 3, minWidth: 'min(600px,100%)' }}>
+            <div className="profile-qa-panel">
               <div className="profile-tabs">
                 <button
                   className={`tab-btn ${profileTab === "questions" ? "active" : ""}`}

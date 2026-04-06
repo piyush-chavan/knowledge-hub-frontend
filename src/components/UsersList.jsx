@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HashLoader } from "react-spinners";
+import { useQuery } from '@tanstack/react-query';
 
 const UsersList = () => {
     const navigate = useNavigate();
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
 
     const fetchUsers = async () => {
-        setLoading(true);
-        setError('');
         try {
             const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
             const response = await fetch(`${backendUrl}/user/all`, {
@@ -25,17 +20,23 @@ const UsersList = () => {
             }
 
             const data = await response.json();
-            setUsers(data);
+            return data;
         } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            throw new Error(err.message || 'Failed to fetch users');
         }
     };
 
-    useEffect(() => {
-        fetchUsers();
-    }, [])
+    const {
+        data:users=[],
+        isLoading:loading,
+        error:error
+    } = useQuery({
+        queryKey:["Users"],
+        queryFn:fetchUsers,
+        staleTime: 1000*60*5, // 5 minutes
+        refetchOnWindowFocus:false
+    })
+
 
     return (
         <div className="users-container">
@@ -46,7 +47,7 @@ const UsersList = () => {
                 </div>}
             {/* {loading && <p className="loading">Loading...</p>} */}
 
-            {error && <p className="error">Error: {error}</p>}
+            {error && <p className="error">Error: {error.message}</p>}
 
             <div className="users-grid">
                 {users.map((user) => (

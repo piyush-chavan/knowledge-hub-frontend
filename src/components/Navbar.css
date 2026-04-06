@@ -46,3 +46,43 @@
   background: rgba(102, 126, 234, 0.1);
   color: #667eea;
 }
+
+.app-nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #333;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+@media (max-width: 860px) {
+  .app-navbar {
+    padding: 0.8rem 1rem;
+  }
+
+  .app-nav-toggle {
+    display: block;
+  }
+
+  .app-nav-links {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .app-nav-links.mobile-open {
+    max-height: 500px;
+    padding-top: 1rem;
+  }
+
+  .app-nav-links a {
+    width: 100%;
+    text-align: center;
+    padding: 0.85rem 0.75rem;
+    border-radius: 12px;
+  }
+}

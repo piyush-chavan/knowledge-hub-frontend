@@ -1,48 +1,47 @@
-import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { HashLoader } from 'react-spinners';
 import { Tooltip } from 'react-tooltip';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Questions() {
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const token = localStorage.getItem('token');
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
-        const response = await fetch(`${backendUrl}/question/all`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+  const fetchQuestions = async () => {
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/question/all`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        setQuestions(data.questions || []);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
-    };
 
-    fetchQuestions();
-  }, []);
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      throw new Error({ err })
+    }
+  };
+  const {
+    data: data = [],
+    isLoading: loading,
+    error: error
+  } = useQuery({
+    queryKey: ['questions'],
+    queryFn: fetchQuestions,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false
+  })
 
   return (
     <div className="questions-container">
-      <div data-tooltip-id='post-question-icon' data-tooltip-content='Post new Question' onClick={() => navigate('/post-question')} style={{ position: 'fixed', right: '15%', bottom: '10%', zIndex: 1000, cursor: 'pointer', backgroundColor: '#3951d7', color: 'white', fontSize: '1.25rem', boxShadow: '0 0 10px #50C878', fontWeight: '600', borderRadius: '50%', padding: '10px', width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} ><i class="fa-regular fa-pen-to-square"></i></div>
+      <div className='post-question-icon' data-tooltip-id='post-question-icon' data-tooltip-content='Post new Question' onClick={() => navigate('/post-question')}  ><i class="fa-solid fa-pen-to-square fa-beat"></i></div>
       <Tooltip className='custom-tooltip' id='post-question-icon' />
       <div className="questions-header">
         <h2 style={{ color: 'whitesmoke' }}>All Questions</h2>
@@ -61,40 +60,43 @@ export default function Questions() {
           <HashLoader color="white" />
         </div>
       )}
-      {error && <p className="error">Error: {error}</p>}
-      {questions.length > 0 ? (
-        <div className="questions-grid">
-          {questions.map((question) => (
-            <div className="question-item">
-              <Link key={question._id} to={`/question/${question._id}`} className="question-link">
-                <div className="question-content">
+      {error && <p className="error">Error: {error.message}</p>}
+
+      <div className="questions-grid">
+        {data.questions?.map((question) => (
+          <div className="question-item">
+            <Link key={question._id} to={`/question/${question._id}`} className="question-link">
+              <div className="question-content">
+                <div>
                   <h3 className="question-title">{question.title}</h3>
                   <p className="question-body">{question.body}</p>
                 </div>
-              </Link>
-              <div className="question-footer">
-                <div data-tooltip-id='user-profile' data-tooltip-content='See profile' style={{cursor:'pointer'}} onClick={() => navigate(`/user/profile/${question.user?.username}`)}
-                  className="question-user">
-                  <span className="user-avatar">
-                    {question.user&&question.user.profilePic?
-                <img className='profile-pic-circle' src={question.user.profilePic}/> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}
-                    </span>
-                  <span>{question.user ? question.user.username : 'Unknown'}</span>
-                </div>
-                <Tooltip className='custom-tooltip' id='user-profile' />
-                <div className="question-date">
-                  {new Date(question.postedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </div>
+                <span className="question-arrow">→</span>
+              </div>
+            </Link>
+            <div className="question-footer">
+              <div data-tooltip-id='user-profile' data-tooltip-content='See profile' style={{ cursor: 'pointer' }} onClick={() => navigate(`/user/profile/${question.user?.username}`)}
+                className="question-user">
+                <span className="user-avatar">
+                  {question.user && question.user.profilePic ?
+                    <img className='profile-pic-circle' src={question.user.profilePic} /> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}
+                </span>
+                <span>{question.user ? question.user.username : 'Unknown'}</span>
+              </div>
+              <Tooltip className='custom-tooltip' id='user-profile' />
+              <div className="question-date">
+                {new Date(question.postedAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                })}
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        !loading && <p className="no-questions">No questions found. Be the first to ask!</p>
+          </div>
+        ))}
+      </div>
+      {data?.questions?.length == 0 && !loading && (
+        <p className="no-questions">No questions found. Be the first to ask!</p>
       )}
     </div>
   );

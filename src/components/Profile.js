@@ -4,25 +4,24 @@ import { HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
 import ProfilePicUpload from './ProfilePicUpload';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Profile() {
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [picUpload,setPicUpload] = useState(false);
+  // const [profile, setProfile] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState('');
+  const [picUpload, setPicUpload] = useState(false);
   const [profileTab, setProfileTab] = useState('bookmarks');
   const token = localStorage.getItem('token');
   const fetchedRef = useRef(false);
 
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(!picUpload){
-      fetchProfile();
+  useEffect(() => {
+    if (!picUpload) {
+      refetch();
     }
-  },[picUpload]);
+  }, [picUpload]);
   const fetchProfile = async () => {
-    setLoading(true);
-    setError('');
     try {
       const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
       const response = await fetch(`${backendUrl}/user/profile`, {
@@ -38,13 +37,23 @@ export default function Profile() {
       }
 
       const data = await response.json();
-      setProfile(data);
+      return data;
     } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      throw new Error(err)
     }
   };
+  const {
+    data: profile = null,
+    isLoading: loading,
+    error: error,
+    refetch,
+    isFetching
+  } = useQuery({
+    queryKey: ["Profile"],
+    queryFn: fetchProfile,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false
+  })
   useEffect(() => {
     if (!token || fetchedRef.current) return;
     fetchedRef.current = true;
@@ -98,14 +107,14 @@ export default function Profile() {
 
       toast.success("Profile updated successfully");
       setShowEdit(false);
-      fetchProfile();
+      refetch();
     } catch (err) {
       console.error(err);
       toast.error("Update failed");
     }
   };
 
-  if (!token) {
+if (!token) {
     return (
       <div className="page-container">
         <div className="card">
@@ -117,17 +126,17 @@ export default function Profile() {
   }
 
   return (
-    <div className="page-container">
-      {picUpload&&(<ProfilePicUpload close={setPicUpload} />)}
-      <div className="card" style={{paddingTop:'10px'}}>
-        <h2 style={{margin:'5px auto'}}>Your Profile</h2>
+    <div style={{padding:0}} className="page-container">
+      {picUpload && (<ProfilePicUpload close={setPicUpload} />)}
+      <div style={{padding:0,paddingTop:'10px'}} className="card">
+        <h2 style={{ margin: '5px auto' }}>Your Profile</h2>
         {loading &&
           <div className="loading">
             <HashLoader color="#007bff" />
           </div>}
         {/* {loading && <p className="loading">Loading...</p>} */}
 
-        {error && <p className="error">Error: {error}</p>}
+        {error && <p className="error">Error: {error.message}</p>}
         {profile && (
           <div className="profile-data">
             {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
@@ -206,12 +215,12 @@ export default function Profile() {
               <div className="profile-card">
                 <span className="edit-btn" onClick={() => setShowEdit(!showEdit)}>
                   {showEdit ? <></> : <>
-                  <i data-tooltip-id='edit-profile' data-tooltip-content='Edit profile' class="fa-solid fa-pen-to-square"></i>
-                  <Tooltip className='custom-tooltip' id='edit-profile' />
+                    <i data-tooltip-id='edit-profile' data-tooltip-content='Edit profile' class="fa-solid fa-pen-to-square"></i>
+                    <Tooltip className='custom-tooltip' id='edit-profile' />
                   </>}
                 </span>
-                <span data-tooltip-id='profile-pic-tip' data-tooltip-content='Edit/Upload Profile Pic' style={{cursor:'pointer'}} onClick={()=>setPicUpload(true)} className="profile-avatar">{profile.userDetails.profilePic?
-                <img className='profile-pic-circle' src={profile.userDetails.profilePic}/> : profile.userDetails.name.charAt(0).toUpperCase()}</span>
+                <span data-tooltip-id='profile-pic-tip' data-tooltip-content='Edit/Upload Profile Pic' style={{ cursor: 'pointer' }} onClick={() => setPicUpload(true)} className="profile-avatar">{profile.userDetails.profilePic ?
+                  <img className='profile-pic-circle' src={profile.userDetails.profilePic} /> : profile.userDetails.name.charAt(0).toUpperCase()}</span>
                 <Tooltip className='custom-tooltip' id='profile-pic-tip' />
                 <h2 className="profile-name">{profile.userDetails.name}</h2>
                 <p className="profile-username">@{profile.userDetails.username}</p>
@@ -244,7 +253,7 @@ export default function Profile() {
               </div>
             </div>
 
-            <div style={{flex:3,minWidth: 'min(600px,100%)'}}>
+            <div className="profile-qa-panel">
               {/* tabs navigation */}
               <div className="profile-tabs">
                 <button

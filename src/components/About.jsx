@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 const About = () => {
   const navigate = useNavigate();
   return (
-    <div className="about-container">
+    <div  className="about-container">
       <div className="about-card">
 
         <h1 className="about-title">Knowledge Hub (Mini Quora)</h1>
@@ -40,13 +40,14 @@ const About = () => {
             <li>Backend: Node.js + Express.js</li>
             <li>Database: MongoDB</li>
             <li>Authentication: JWT</li>
+            <li>Optimisation: Caching, API calls optimised</li>
           </ul>
         </section>
 
         <section className="about-section">
           <h2>Developer</h2>
           <p>
-            This project is developed by <strong style={{cursor:'pointer'}} onClick={()=>navigate('/user/profile/piyush')}>Piyush Chavan</strong>, 
+            This project is developed by <strong style={{cursor:'pointer'}} onClick={()=>navigate('/user/profile/piyush')}>Piyush Chavan <i class="fa-solid fa-up-right-from-square"></i></strong>, 
             a passionate full-stack developer focused on building scalable 
             and modern web applications.
           </p>

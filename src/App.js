@@ -12,9 +12,13 @@ import Questions from './components/Questions';
 import PostQuestion from './components/PostQuestion';
 import QuestionDetail from './components/QuestionDetail';
 import UsersList from './components/UsersList';
+import { QueryClient,QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <HashRouter>
       <Navbar />
       <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
@@ -33,6 +37,7 @@ function App() {
         </Routes>
       </main>
     </HashRouter>
+    </QueryClientProvider>
   );
 }
 

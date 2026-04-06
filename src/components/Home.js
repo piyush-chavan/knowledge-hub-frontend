@@ -28,7 +28,7 @@ export default function Home() {
     <div className="home-container">
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="hero-content">
+        <div style={{flex:'1 !important'}} className="hero-content">
           <h1 className="hero-title">Welcome to Knowledge Hub</h1>
           <p className="hero-subtitle">
             A modern Q&A platform where knowledge meets curiosity. Ask questions, share answers, and connect with a community of learners.
@@ -48,8 +48,8 @@ export default function Home() {
             )}
           </div>
         </div>
-        <div className="hero-image">
-          <div className="hero-placeholder">
+        <div style={{flex:1}} className="hero-image">
+          <div style={{paddingRight:'40px'}} className="hero-placeholder">
             {/* <span>💡</span>
             <p>Knowledge Hub</p> */}
             <img style={{maxWidth:'100%'}} src={require('../logos/kHubLogo.png')} />
@@ -144,7 +144,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="footer">
-        <p>&copy; 2026 Knowledge Hub. Built with Passion and curiosity for knowledge sharing.</p>
+        <p>&copy; 2026 Knowledge Hub. Built with Passion and curiosity</p>
       </footer>
     </div>
   );
