@@ -336,95 +336,89 @@ input:focus {
 
 .home-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
   color: #333;
-  /* padding: 0 1rem 2rem; */
-  box-sizing: border-box;
-  overflow-x: hidden;
 }
 
 .hero-section {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  padding: 4rem 2rem;
-
-  /* Dark base */
-  /* background: linear-gradient(135deg, #000000, #db5d19); */
-
+  padding: 4rem;
+  background: linear-gradient(135deg, #7938ba 0%, #ccc4d3 100%);
   color: white;
-  min-height: 58vh;
-  border-radius: 24px;
-  overflow: hidden;
+  min-height: 60vh;
+  border-radius: 20px;
 }
 
-/* 🔥 Glowing "knowledge flame" blobs */
-.hero-section::before,
-.hero-section::after {
-  content: "";
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+.hero-section {
+  position: relative;
+  overflow: hidden; /* Clips the rotating glow to the section boundaries */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111; /* Dark background to make the fire glow pop */
+  color: white;
+  /* min-height: 100vh; */
+}
+
+.hero-section::before {
+  content: '';
   position: absolute;
-  width: 400px;
-  height: 400px;
-  filter: blur(120px);
-  opacity: 0.7;
+  top: -50%;
+  left: -50%;
+  width: 200%; /* Larger than the container to ensure full coverage during rotation */
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(255, 69, 0, 0.4) 15%, /* Orange-red fire */
+    rgba(255, 165, 0, 0.6) 30%, /* Golden yellow */
+    transparent 50%
+  );
+  animation: rotate-fire 8s linear infinite; /* Smooth continuous rotation */
+  filter: blur(60px); /* Softens the gradient into a "glow" */
   z-index: 0;
 }
 
-.hero-section::before {
-  background: radial-gradient(circle, #ff7a18, #ff3d00);
-  top: -100px;
-  left: -100px;
-}
-
-.hero-section::after {
-  background: radial-gradient(circle, #81e372, #ffffff);
-  bottom: -100px;
-  right: -100px;
-}
-
-/* ✨ Glass content container */
-.hero-content {
+/* Keeping content above the glow */
+.hero-section > * {
   position: relative;
   z-index: 1;
-
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-
-  padding: 2rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Optional glowing text */
-.hero-content h1 {
-  font-size: 2.5rem;
-  background: linear-gradient(90deg, #0ae2db, #1bcd59);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: justify;
+@keyframes rotate-fire {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* Smooth floating animation */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
-}
-
-.hero-section::before {
-  animation: float 6s ease-in-out infinite;
-}
-
-.hero-section::after {
-  animation: float 8s ease-in-out infinite;
-}
-
+/* ......................................  */
 
 
 .hero-image {
@@ -441,28 +435,9 @@ input:focus {
   border-radius: 22px;
 }
 
-.hero-title {
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-}
 
-.hero-content {
-  flex: 1;
-}
 
-.hero-title {
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-}
 
-.hero-subtitle {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-}
-
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
 
 .features-section,
 .how-it-works,
