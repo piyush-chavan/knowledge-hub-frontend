@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className="app-navbar">
       <div className="app-nav-brand">
-        <img src={require('../logos/kHubBulb.png')} style={{height:'40px',margin:'0 5px'}} />
+        <img alt='app-icon' src={require('../logos/kHubBulb.png')} style={{height:'40px',margin:'0 5px'}} />
         <div>Knowledge Hub</div>
       </div>
       <button className="app-nav-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
@@ -19,14 +19,14 @@ export default function Navbar() {
         <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setMenuOpen(false)}>
           <i class="fa-solid fa-house"></i> Home
         </NavLink>
-        <NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setMenuOpen(false)}>
-          <i class="fa-solid fa-circle-info"></i> About
+        <NavLink to="/questions" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setMenuOpen(false)}>
+          <i class="fa-solid fa-clipboard-list"></i> Questions
         </NavLink>
         <NavLink to="/users" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setMenuOpen(false)}>
           <i class="fa-solid fa-users"></i> Users
         </NavLink>
-        <NavLink to="/questions" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setMenuOpen(false)}>
-          <i class="fa-solid fa-clipboard-list"></i> Questions
+        <NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setMenuOpen(false)}>
+          <i class="fa-solid fa-circle-info"></i> About
         </NavLink>
         {!token && (
           <>

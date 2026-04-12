@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import  {  useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FadeLoader, HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
@@ -109,7 +109,7 @@ export default function QuestionDetail() {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 
-      const data = await response.json();
+      await response.json();
       refetchBookmark();
     } catch (err) {
       throw new Error(err)
@@ -136,7 +136,7 @@ export default function QuestionDetail() {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 
-      const newAnswer = await response.json();
+      await response.json();
       // Refetch to get updated answers with user data
       await fetchQuestion();
       toast.success('Answer posted successfully!');
@@ -152,8 +152,8 @@ export default function QuestionDetail() {
 
   return (
     <div className="question-detail-container">
-      <button onClick={() => navigate('/questions')}>
-        ← Back to Questions
+      <button onClick={() => navigate(-1)}>
+        <i class="fa-solid fa-circle-arrow-left"></i> Back
       </button>
       {loading &&
         <div className="loading">
@@ -161,7 +161,7 @@ export default function QuestionDetail() {
         </div>}
       {/* <p className="loading">Loading question...</p>} */}
       {error && <p className="error">Error: {error.message}</p>}
-      {question && (
+      {question && !loading && (
         <div className="question-detail">
           <div className="question-main">
             <h1 className="question-title">{question.title}</h1>
@@ -181,7 +181,7 @@ export default function QuestionDetail() {
                 <div data-tooltip-id='user-profile' data-tooltip-content='See Profile' style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/user/profile/${question.user?.username}`)}>
                   <span className="user-avatar">
                     {question.user && question.user.profilePic ?
-                      <img className='profile-pic-circle' src={question.user.profilePic} /> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}                    </span>
+                      <img alt="pro-pic" className='profile-pic-circle' src={question.user.profilePic} /> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}                    </span>
                   <span>{question.user && question.user.username ? question.user.username : 'Unknown'}</span>
                 </div>
                 <Tooltip className='custom-tooltip' id='user-profile' />
@@ -239,7 +239,7 @@ export default function QuestionDetail() {
                       className="question-user">
                       <span className="user-avatar">
                         {answer.user && answer.user.profilePic ?
-                          <img className='profile-pic-circle' src={answer.user.profilePic} /> : (answer.user ? answer.user.username.charAt(0).toUpperCase() : '?')}
+                          <img alt="pro-pic" className='profile-pic-circle' src={answer.user.profilePic} /> : (answer.user ? answer.user.username.charAt(0).toUpperCase() : '?')}
                       </span>
                       <span>{answer.user && answer.user.username ? answer.user.username : 'Unknown'}</span>
                     </div>

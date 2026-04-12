@@ -29,9 +29,9 @@ export default function Questions() {
     }
   };
   const {
-    data: data = [],
+    data = [],
     isLoading: loading,
-    error: error
+    error
   } = useQuery({
     queryKey: ['questions'],
     queryFn: fetchQuestions,
@@ -46,7 +46,7 @@ export default function Questions() {
       <div className="questions-header">
         <h2 style={{ color: 'whitesmoke' }}>All Questions</h2>
 
-        <Link to="/post-question" className="post-question-btn">
+        <Link to="/post-question" className="post-question-btn" style={{boxShadow:'0 0 30px white'}}>
           {token ?
             <><i class="fa-regular fa-pen-to-square"></i> Post a Question </>
             :
@@ -79,7 +79,7 @@ export default function Questions() {
                 className="question-user">
                 <span className="user-avatar">
                   {question.user && question.user.profilePic ?
-                    <img className='profile-pic-circle' src={question.user.profilePic} /> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}
+                    <img alt="pro-pic" className='profile-pic-circle' src={question.user.profilePic} /> : (question.user ? question.user.username.charAt(0).toUpperCase() : '?')}
                 </span>
                 <span>{question.user ? question.user.username : 'Unknown'}</span>
               </div>
@@ -95,7 +95,7 @@ export default function Questions() {
           </div>
         ))}
       </div>
-      {data?.questions?.length == 0 && !loading && (
+      {data?.questions?.length === 0 && !loading && (
         <p className="no-questions">No questions found. Be the first to ask!</p>
       )}
     </div>

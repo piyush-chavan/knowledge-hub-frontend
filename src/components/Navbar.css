@@ -67,6 +67,7 @@
 
   .app-nav-links {
     width: 100%;
+    box-sizing: border-box;
     flex-direction: column;
     align-items: stretch;
     overflow: hidden;
@@ -80,7 +81,7 @@
   }
 
   .app-nav-links a {
-    width: 100%;
+    /* width: 100%; */
     text-align: center;
     padding: 0.85rem 0.75rem;
     border-radius: 12px;

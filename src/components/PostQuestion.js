@@ -45,7 +45,7 @@ export default function PostQuestion() {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 
-      const data = await response.json();
+      await response.json();
       // Assuming success, navigate to questions
       navigate('/questions');
       toast.success('Question posted successfully!');
@@ -58,7 +58,7 @@ export default function PostQuestion() {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container" style={{padding:0}}>
       <div className="card post-question-card">
         <h2>Post a New Question</h2>
         <form onSubmit={submit}>
@@ -71,12 +71,13 @@ export default function PostQuestion() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="What's your question?"
               required
+              style={{boxSizing:'border-box'}}
               maxLength={200}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="question-body">Body</label>
+            <label htmlFor="question-body">Description</label>
             <textarea
               id="question-body"
               value={body}
@@ -85,6 +86,7 @@ export default function PostQuestion() {
               required
               rows={6}
               maxLength={2000}
+              style={{boxSizing:'border-box'}}
             />
           </div>
 
