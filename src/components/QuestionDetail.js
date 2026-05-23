@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import  {  useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ReactMarkDown from 'react-markdown'
 import { FadeLoader, HashLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import { Tooltip } from 'react-tooltip';
@@ -14,6 +15,8 @@ export default function QuestionDetail() {
   const [showAnswerForm, setShowAnswerForm] = useState(false);
   const [answerBody, setAnswerBody] = useState('');
   const [posting, setPosting] = useState(false);
+  const [aiAnswer, setAiAnswer] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
   // const [isBookmarked, setIsBookmarked] = useState(false);
   // const [bookmarkLoading, setBookmarkLoading] = useState(true);
   const token = localStorage.getItem('token');
@@ -150,6 +153,37 @@ export default function QuestionDetail() {
     }
   };
 
+
+
+  const generateAIAnswer = async () => {
+    if (aiLoading || aiAnswer) return;
+
+    setAiLoading(true);
+    try {
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3030';
+      const response = await fetch(`${backendUrl}/ai/getAnswer`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question: question.title+'\n\n'+question.body }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const answerText = data.aiAnswer;
+      setAiAnswer(answerText);
+      toast.success('AI answer generated successfully!');
+    } catch (err) {
+      toast.error('Failed to generate AI answer. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   return (
     <div className="question-detail-container">
       <button onClick={() => navigate(-1)}>
@@ -166,16 +200,23 @@ export default function QuestionDetail() {
           <div className="question-main">
             <h1 className="question-title">{question.title}</h1>
             <p className="question-body">{question.body}</p>
-            {token && (<div className='options-icons-container'>
-                  {bookmarkLoading && (<div style={{ transform: "scale(0.5)" }}><FadeLoader /></div>)}
-                  {isBookmarked ?
-                    <>
-                      <i data-tooltip-id='remove-bookmark' data-tooltip-content='remove bookmark' onClick={() => toggleBookmark()} class="fa-solid fa-bookmark bookmark-icon"></i>
-                      <Tooltip className='custom-tooltip' id='remove-bookmark' />
-                    </>
-                    : <i data-tooltip-id='save-bookmark' data-tooltip-content='save bookmark' onClick={() => toggleBookmark()} class="fa-regular fa-bookmark bookmark-icon"></i>}
-                  <Tooltip className='custom-tooltip' id='save-bookmark' />
-                </div>)}
+            <div className='options-icons-container'>
+              <button className='ai-button' onClick={generateAIAnswer} disabled={aiLoading || !!aiAnswer}>
+                <i class="fa-solid fa-wand-magic-sparkles"></i> {aiLoading ? 'Generating AI answer...' : aiAnswer ? 'AI answer generated' : 'Generate AI Answer'}
+              </button>
+              {token && (
+                <div style={{marginLeft:"20px"}}>
+                    {bookmarkLoading && (<div style={{ transform: "scale(0.5)" }}><FadeLoader /></div>)}
+                    {isBookmarked ?
+                      <>
+                        <i data-tooltip-id='remove-bookmark' data-tooltip-content='remove bookmark' onClick={() => toggleBookmark()} class="fa-solid fa-bookmark bookmark-icon"></i>
+                        <Tooltip className='custom-tooltip' id='remove-bookmark' />
+                      </>
+                      : <i data-tooltip-id='save-bookmark' data-tooltip-content='save bookmark' onClick={() => toggleBookmark()} class="fa-regular fa-bookmark bookmark-icon"></i>}
+                    <Tooltip className='custom-tooltip' id='save-bookmark' />
+                    </div>
+              )}
+                </div>
             <div className="question-meta">
               <div className="question-user">
                 <div data-tooltip-id='user-profile' data-tooltip-content='See Profile' style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/user/profile/${question.user?.username}`)}>
@@ -198,6 +239,14 @@ export default function QuestionDetail() {
               
             </div>
           </div>
+
+          {aiAnswer && (
+            <div className="ai-answer-block">
+              <h3>AI Answer</h3>
+                <ReactMarkDown>{aiAnswer}</ReactMarkDown>
+              
+            </div>
+          )}
 
           <div className="answers-section">
             {token ? (

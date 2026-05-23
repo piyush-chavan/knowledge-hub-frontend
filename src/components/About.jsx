@@ -24,6 +24,7 @@ const About = () => {
           <h2>Features</h2>
           <ul>
             <li>Ask and answer questions and contribute</li>
+            <li>Integrated AI-powered answer generation</li>
             <li>User authentication (login/signup)</li>
             <li>View all questions and answers</li>
             <li>See Profiles of other users , interact and discuss with them</li>
@@ -39,6 +40,7 @@ const About = () => {
             <li>Frontend: React.js</li>
             <li>Backend: Node.js + Express.js</li>
             <li>Database: MongoDB</li>
+            <li>LLM/AI: Gemini</li>
             <li>Authentication: JWT</li>
             <li>Optimisation: Caching, API calls optimised</li>
           </ul>
