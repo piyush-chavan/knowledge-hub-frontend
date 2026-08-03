@@ -132,7 +132,7 @@ if (!token) {
         <h2 style={{ margin: '5px auto' }}>Your Profile</h2>
         {loading &&
           <div className="loading">
-            <HashLoader color="#007bff" />
+            <HashLoader color="#7c3aed" />
           </div>}
         {/* {loading && <p className="loading">Loading...</p>} */}
 

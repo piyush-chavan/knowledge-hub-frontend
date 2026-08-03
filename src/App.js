@@ -36,7 +36,7 @@ function App() {
       <HashRouter>
         <Suspense fallback={
           <div className='upload-overlay'>
-            <HashLoader color="#white" />
+            <HashLoader color="#ffffff" />
           </div>}>
 
           <Navbar />

@@ -9,13 +9,8 @@
 
   --gradient-primary: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
   --gradient-primary-hover: linear-gradient(135deg, #9d6bf9 0%, #7c3aed 100%);
---gradient-page: linear-gradient(
-    135deg,
-    #f8f4ff 0%,
-    #f6e8ff 35%,
-    #ffeede 70%,
-    #fff8f2 100%
-  );  --gradient-ai: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+  --gradient-page: linear-gradient(160deg, #f3e8ff 0%, #ede1fb 45%, #fbe7dd 100%);
+  --gradient-ai: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
 
   --surface: #ffffff;
   --surface-soft: #f6f3fd;

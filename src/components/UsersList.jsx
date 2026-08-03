@@ -43,7 +43,7 @@ const UsersList = () => {
             <h2 className="users-heading">Connect with Users</h2>
             {loading &&
                 <div className="loading">
-                    <HashLoader color="#007bff" />
+                    <HashLoader color="#7c3aed" />
                 </div>}
             {/* {loading && <p className="loading">Loading...</p>} */}
 

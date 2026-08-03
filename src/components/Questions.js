@@ -44,9 +44,9 @@ export default function Questions() {
       <div className='post-question-icon' data-tooltip-id='post-question-icon' data-tooltip-content='Post new Question' onClick={() => navigate('/post-question')}  ><i class="fa-solid fa-pen-to-square fa-beat"></i></div>
       <Tooltip className='custom-tooltip' id='post-question-icon' />
       <div className="questions-header">
-        <h2 style={{ color: 'whitesmoke' }}>All Questions</h2>
+        <h2 style={{color:'var(--text-heading)'}}>All Questions</h2>
 
-        <Link to="/post-question" className="post-question-btn" style={{boxShadow:'0 0 30px white'}}>
+        <Link to="/post-question" className="post-question-btn">
           {token ?
             <><i class="fa-regular fa-pen-to-square"></i> Post a Question </>
             :

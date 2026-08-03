@@ -53,7 +53,7 @@ export default function ProfilePicUpload({ close }) {
                         <img src={preview} alt="preview" width='150' />
                     ) : <i style={{ fontSize: '5rem' }} class="fa-solid fa-cloud-arrow-up"></i>}
                     <div style={{ flexDirection: 'column',display:loading?'flex':'none' }} className="upload-overlay">
-                        <HashLoader size={200} color='purple' className='profile-pic-loader' loading={loading} />
+                        <HashLoader size={200} color='#a78bfa' className='profile-pic-loader' loading={loading} />
                         <br />
                         <h3>Uploading ...</h3>
                     </div>

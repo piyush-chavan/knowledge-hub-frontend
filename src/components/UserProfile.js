@@ -46,7 +46,7 @@ export default function UserProfile() {
         <h2>Profile of {username}</h2>
         {loading &&
           <div className="loading">
-            <HashLoader color="#007bff" />
+            <HashLoader color="#7c3aed" />
           </div>}
         {/* {loading && <p className="loading">Loading profile...</p>} */}
 

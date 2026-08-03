@@ -42,7 +42,7 @@ export default function Home() {
                 <i class="fa-solid fa-question"></i> Ask a Question
               </button>
             ) : (
-              <button onClick={() => navigate('/register')} className="btn-secondary">
+              <button onClick={() => navigate('/register')} className="btn-secondary" style={{color:'var(--text-heading)'}}>
                 <i class="fa-solid fa-user-plus"></i> Join Now
               </button>
             )}
@@ -59,7 +59,7 @@ export default function Home() {
 
       {/* Features Section */}
       <section className="features-section">
-        <h2 style={{color:"wheat"}}>Why Choose Knowledge Hub?</h2>
+        <h2>Why Choose Knowledge Hub?</h2>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">❓</div>
@@ -86,7 +86,7 @@ export default function Home() {
 
       {/* How It Works */}
       <section className="how-it-works">
-        <h2 style={{color:"wheat"}}>How It Works</h2>
+        <h2>How It Works</h2>
         <div className="steps">
           <div className="step">
             <div className="step-number">1</div>
@@ -114,7 +114,7 @@ export default function Home() {
       {/* User Actions */}
       {token && (
         <section className="user-actions">
-          <h2 style={{color:"wheat"}}>Quick Actions</h2>
+          <h2>Quick Actions</h2>
           <div className="actions-grid">
             <div className="action-card">
               <h3>Find a User</h3>
