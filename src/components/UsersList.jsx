@@ -29,7 +29,7 @@ const UsersList = () => {
     const {
         data:users=[],
         isLoading:loading,
-        error:error
+        error
     } = useQuery({
         queryKey:["Users"],
         queryFn:fetchUsers,
@@ -56,7 +56,7 @@ const UsersList = () => {
                         {/* Avatar */}
                         <div style={{ margin: 'auto' }} className="user-avatar">
                             {user.profilePic ?
-                                <img className='profile-pic-circle' src={user.profilePic} /> : (user.name ? user.name.charAt(0).toUpperCase() : "U")}
+                                <img alt="profile" className='profile-pic-circle' src={user.profilePic} /> : (user.name ? user.name.charAt(0).toUpperCase() : "U")}
                         </div>
 
                         {/* Info */}

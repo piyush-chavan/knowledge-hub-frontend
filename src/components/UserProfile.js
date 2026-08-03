@@ -58,7 +58,7 @@ export default function UserProfile() {
             <div className="profile-container">
               <div className="profile-card">
                 <span className="profile-avatar">{profile.userDetails.profilePic?
-                <img className='profile-pic-circle' src={profile.userDetails.profilePic}/> : profile.userDetails.name.charAt(0).toUpperCase()}</span>
+                <img alt="profile" className='profile-pic-circle' src={profile.userDetails.profilePic}/> : profile.userDetails.name.charAt(0).toUpperCase()}</span>
                 <h2 className="profile-name">{profile.userDetails?.name}</h2>
                 <p className="profile-username">@{profile.userDetails?.username}</p>
 

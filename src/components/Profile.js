@@ -20,6 +20,7 @@ export default function Profile() {
     if (!picUpload) {
       refetch();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [picUpload]);
   const fetchProfile = async () => {
     try {
@@ -45,9 +46,8 @@ export default function Profile() {
   const {
     data: profile = null,
     isLoading: loading,
-    error: error,
-    refetch,
-    isFetching
+    error,
+    refetch
   } = useQuery({
     queryKey: ["Profile"],
     queryFn: fetchProfile,
@@ -58,6 +58,7 @@ export default function Profile() {
     if (!token || fetchedRef.current) return;
     fetchedRef.current = true;
     fetchProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   // update container code here all functions and states
@@ -103,7 +104,7 @@ export default function Profile() {
         body: JSON.stringify(formData),
       });
 
-      const result = await res.json();
+      await res.json();
 
       toast.success("Profile updated successfully");
       setShowEdit(false);
@@ -220,7 +221,7 @@ if (!token) {
                   </>}
                 </span>
                 <span data-tooltip-id='profile-pic-tip' data-tooltip-content='Edit/Upload Profile Pic' style={{ cursor: 'pointer' }} onClick={() => setPicUpload(true)} className="profile-avatar">{profile.userDetails.profilePic ?
-                  <img className='profile-pic-circle' src={profile.userDetails.profilePic} /> : profile.userDetails.name.charAt(0).toUpperCase()}</span>
+                  <img alt="profile" className='profile-pic-circle' src={profile.userDetails.profilePic} /> : profile.userDetails.name.charAt(0).toUpperCase()}</span>
                 <Tooltip className='custom-tooltip' id='profile-pic-tip' />
                 <h2 className="profile-name">{profile.userDetails.name}</h2>
                 <p className="profile-username">@{profile.userDetails.username}</p>
@@ -304,7 +305,7 @@ if (!token) {
                   ))}
                 </div>)}
 
-              {profileTab != 'bookmarks' && (
+              {profileTab !== 'bookmarks' && (
                 <div className="qa-container">
 
                   {/* Questions */}
